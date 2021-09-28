@@ -1,0 +1,58 @@
+﻿@model Trello.Data.Entities.Board
+
+@{
+    ViewData["Title"] = "Board "+Model.Name;
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="row">
+    @foreach(var column in Model.Columns)
+            {
+               <div class="col col-3">
+                   @column.Name
+                   @foreach (var card in column.Cards)
+                    {
+                      <div class="card" style="width: 18rem;">
+                        <!-- <img src="..." class="card-img-top" alt="...">-->
+                          <div class="card-body">
+                            <h5 class="card-title">@card.Name</h5>
+                            <p class="card-text"></p>
+                              <ul>
+                                  @foreach(var comment in card.Comments)
+                    {
+                                  <li>@comment.Name </li>
+                    }
+                              </ul>
+                   
+                           </div>
+                      </div>
+
+                    }
+               </div>
+     }
+<div class="col col-3">
+    <p>
+        <a class="btn btn-primary" data-bs-toggle="collapse" href="#createNewColumn" role="button" aria-expanded="false" aria-controls="createNewColumn">
+            Добавить новый список
+        </a>        
+    </p>
+    <div class="collapse" id="createNewColumn">
+        <div class="card card-body">
+            <form>
+                <div class="mb-3">
+                    <label for="column-name" class="col-form-label">Название:</label>
+                    <input type="text" class="form-control" id="column-name">
+                </div>
+                <div class="mb-3">
+                    <button type="button" class="btn btn-primary">Добавить список</button>
+                    <button type="button" class="btn-close" aria-label="Close"></button>
+                </div>
+            </form>
+        </div>
+    </div>
+   
+
+    
+</div>
+</div>

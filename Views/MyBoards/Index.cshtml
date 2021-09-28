@@ -1,0 +1,31 @@
+﻿@model IEnumerable<Trello.Data.Entities.Board>
+
+@{
+    ViewData["Title"] = "MyBorders";
+}
+
+<h1>My Boards</h1>
+
+
+@foreach (var item in Model)
+{
+    <div class="card" style="width: 18rem;">
+        <!-- <img src="..." class="card-img-top" alt="...">-->
+        <div class="card-body">
+            <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
+            <p class="card-text">@Html.DisplayFor(modelItem => item.Autor.UserName)</p>
+            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary">Открыть</a>
+        </div>
+    </div>
+
+}
+<div class="card" style="width: 18rem;">
+    <!-- <img src="..." class="card-img-top" alt="..."> -->
+    <div class="card-body">
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#newBoardForm">Создать доску</button>
+    </div>
+</div>
+
+
+<partial name="_formBoard" />
+
