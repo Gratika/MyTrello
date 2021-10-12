@@ -1,0 +1,33 @@
+﻿@model int
+@ViewData["BoardId"]
+
+<!--add new column-->
+<div class="col col-3">
+    <div class="dropdown">
+        <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+            Добавить новый список
+        </button>
+        <div class="dropdown-menu dropdown-menu-light" aria-labelledby="dropdownMenuButton2">
+            <form asp-action="Create" asp-controller="MyColumn" method="post" class="p-3">
+                <div class="mb-3">
+                    <div class="form-group">
+                        <label for="column-name" class="col-form-label">Название:</label>
+                        <input type="text" class="form-control" id="column-name" name="Name">
+                    </div>
+                    <input type="hidden" name="BoardId" value=@Model>
+                </div>
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-primary">Добавить список</button>
+                    <button type="button" class="btn-close" aria-label="Close"></button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+
+
+</div>
+
+
+

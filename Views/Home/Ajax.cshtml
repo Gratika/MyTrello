@@ -1,0 +1,112 @@
+﻿@{
+    ViewData["Title"] = "Ajax";
+}
+
+
+<h1 class="display-4">Ajax</h1>
+
+<div id="mainElement">
+
+</div>
+
+<div class="card" style="width: 18rem;">
+    <!-- <img src="..." class="card-img-top" alt="..."> -->
+    <div class="card-body">
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#newBoardForm">Создать доску</button>
+    </div>
+</div>
+<partial name="/Views/MyBoards/_formBoard.cshtml" />
+
+<script>
+    let mainElement = document.getElementById("mainElement");
+    let boards = [];
+    let inputs = document.getElementById("frmCreateNewBoard").elements;
+    document.getElementById("newBoardForm").onclick = function () {
+        event.preventDefault();
+        let newBoard = {};
+        let inputs = document.getElementById("frmCreateNewBoard").elements;
+        for (var i = 0; i < inputs.length; i++) {
+            if (inputs[i].nodeName == "INPUT" && inputs[i].type == "text")
+                newBoard[inputs[i].name] = inputs[i].value;
+        }
+        console.log("Try");
+        console.log(newBoard);
+        apiPost(newBoard);
+        return false;
+    }
+
+    function renderBoards() {
+        var myModal = new bootstrap.Modal(document.getElementById('newBoardForm'));
+         myModal.hide();
+        let ul = document.createElement("ul");
+        for (var b = 0; b < boards.length; b++) {
+            let li = document.createElement("li");
+            li.className = "col";
+            li.id = "board_" + boards[b].id;
+            li.innerHTML = boards[b].name;
+            li.onclick = function () {
+                console.log(this.id);
+                console.log(this.innerText);
+
+            }
+            let span = document.createElement("span");
+            span.innerText = "-";
+            span.className = boards[b].id;
+            span.onclick = function () {
+                apiDelete(this.className);
+            }
+
+            li.appendChild(span);
+            ul.appendChild(li)
+
+
+        }
+        mainElement.innerHTML = "";
+        mainElement.appendChild(ul);
+    }
+
+    //create
+    function apiPost(newBoard) {
+        fetch("/api/apiboards",
+            {
+                method: "post",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(newBoard)
+            }
+        )
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+            })
+            .catch(err => console.log(err));
+    }
+    //read
+    function apiGet() {
+        fetch("/api/apiboards")
+            .then(res => res.json())
+            .then(data => {
+                boards = data;
+                renderBoards()
+            })
+            .catch(err => console.log(err));
+    }
+    //update
+    function apiPut() { }
+
+    function apiDelete(id) {
+        fetch("/api/apiboards/" + id,
+            {
+                method: "delete"
+            }
+        )
+            .then(res => {
+                boards.splice(boards.findIndex(b => b.id == id), 1);
+                renderBoards();
+            })
+            .catch(err => console.log(err));
+    }
+    apiGet();
+
+
+</script>
+

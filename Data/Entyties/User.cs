@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Trello.Models;
 
@@ -18,6 +19,7 @@ namespace Trello.Data.Entities
         public string Name { get; set; }
         
         //связи
+        [JsonIgnore]
         public List<Board> Boards { get; set; }
         public List<Column> Columns { get; set; }
         public List<Card> Cards { get; set; }
